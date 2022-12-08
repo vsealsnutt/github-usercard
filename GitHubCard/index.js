@@ -1,8 +1,15 @@
+import axios from 'axios';
+
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+axios.get('https://api.github.com/users/vsealsnutt')
+  .then(res => {
+    console.log(res);
+  })
+  .catch(err => console.error(err));
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -49,6 +56,33 @@ const followersArray = [];
       </div>
     </div>
 */
+cardWrapper = document.createElement('div');
+userImage = document.createElement('img');
+cardInfo = document.createElement('div');
+userName = document.createElement('h3');
+userUsername = document.createElement('p');
+userLocation = document.createElement('p');
+userProfile = document.createElement('p');
+userPage = document.createElement('a');
+followersCount = document.createElement('p');
+followingCount = document.createElement('p');
+userBio = document.createElement('p');
+
+cardWrapper.classList.add('card');
+cardInfo.classList.add('card-info');
+userName.classList.add('name');
+userUsername.classList.add('username');
+
+cardWrapper.appendChild(userImage);
+cardWrapper.appendChild(cardInfo);
+cardInfo.appendChild(userName);
+cardInfo.appendChild(userUsername);
+cardInfo.appendChild(userLocation);
+cardInfo.appendChild(userProfile);
+userProfile.appendChild(userPage);
+cardInfo.appendChild(followersCount);
+cardInfo.appendChild(followingCount);
+cardInfo.appendChild(userBio);
 
 /*
   List of LS Instructors Github username's:
