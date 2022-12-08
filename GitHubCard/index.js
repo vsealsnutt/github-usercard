@@ -5,9 +5,10 @@ import axios from 'axios';
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+
 axios.get('https://api.github.com/users/vsealsnutt')
   .then(res => {
-    console.log(res);
+    document.querySelector('.cards').appendChild(githubCard(res.data));
   })
   .catch(err => console.error(err));
 
@@ -35,7 +36,19 @@ axios.get('https://api.github.com/users/vsealsnutt')
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = ['kennethsn', 'tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
+
+for (let i = 0; i < followersArray.length; i++) {
+  getGithubCard(followersArray[i]);
+}
+
+function getGithubCard(username) {
+  axios.get(`https://api.github.com/users/${username}`)
+  .then(res => {
+    document.querySelector('.cards').appendChild(githubCard(res.data));
+  })
+  .catch(err => console.error(err));
+}
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -56,33 +69,49 @@ const followersArray = [];
       </div>
     </div>
 */
-cardWrapper = document.createElement('div');
-userImage = document.createElement('img');
-cardInfo = document.createElement('div');
-userName = document.createElement('h3');
-userUsername = document.createElement('p');
-userLocation = document.createElement('p');
-userProfile = document.createElement('p');
-userPage = document.createElement('a');
-followersCount = document.createElement('p');
-followingCount = document.createElement('p');
-userBio = document.createElement('p');
+function githubCard(gitInfo) {
+  const card = document.createElement('div');
+  const userImage = document.createElement('img');
+  const cardInfo = document.createElement('div');
+  const name = document.createElement('h3');
+  const username = document.createElement('p');
+  const location = document.createElement('p');
+  const profile = document.createElement('p');
+  const pageLink = document.createElement('a');
+  const followersCount = document.createElement('p');
+  const followingCount = document.createElement('p');
+  const bio = document.createElement('p');
 
-cardWrapper.classList.add('card');
-cardInfo.classList.add('card-info');
-userName.classList.add('name');
-userUsername.classList.add('username');
+  card.classList.add('card');
+  cardInfo.classList.add('card-info');
+  name.classList.add('name');
+  username.classList.add('username');
 
-cardWrapper.appendChild(userImage);
-cardWrapper.appendChild(cardInfo);
-cardInfo.appendChild(userName);
-cardInfo.appendChild(userUsername);
-cardInfo.appendChild(userLocation);
-cardInfo.appendChild(userProfile);
-userProfile.appendChild(userPage);
-cardInfo.appendChild(followersCount);
-cardInfo.appendChild(followingCount);
-cardInfo.appendChild(userBio);
+  userImage.src = gitInfo.avatar_url;
+  name.textContent = gitInfo.name;
+  username.textContent = gitInfo.login;
+  location.textContent = gitInfo.location;
+  profile.textContent = 'Profile';
+  pageLink.textContent = 'Link to github profile';
+  pageLink.href = gitInfo.html_url;
+  followersCount.textContent = `Followers: ${gitInfo.followers}`;
+  followingCount.textContent = `Following: ${gitInfo.following}`;
+  bio.textContent = gitInfo.bio;
+
+  card.appendChild(userImage);
+  card.appendChild(cardInfo);
+  cardInfo.appendChild(name);
+  cardInfo.appendChild(username);
+  cardInfo.appendChild(location);
+  cardInfo.appendChild(profile);
+  profile.appendChild(pageLink);
+  cardInfo.appendChild(followersCount);
+  cardInfo.appendChild(followingCount);
+  cardInfo.appendChild(bio);
+
+  return card;
+}
+
 
 /*
   List of LS Instructors Github username's:
